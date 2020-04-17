@@ -1,0 +1,27 @@
+GET http://localhost:4000/service/
+
+###
+
+GET http://localhost:4000/service/5e91245ce294b743745795bd
+
+###
+
+POST http://localhost:4000/service/
+Content-Type: application/json
+
+{
+    "artisan": "888",
+}
+
+###
+DELETE http://localhost:4000/service/5e91245ce294b743745795bd
+
+
+### 
+
+PATCH http://localhost:4000/service/5e91a66e18e7d9446cc4082e
+Content-Type: application/json
+
+{
+    "status": "approved"
+}

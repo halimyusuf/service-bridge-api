@@ -1,0 +1,27 @@
+GET http://localhost:4000/skill/
+
+###
+
+GET http://localhost:4000/skill/5e93243a2c3d19237c0f6b20
+
+###
+
+POST http://localhost:4000/skill/
+Content-Type: application/json
+
+{
+    "name": "Plumber"
+}
+
+###
+DELETE http://localhost:4000/skill/5e9325220407e812d4462b0c
+
+
+### 
+
+PATCH http://localhost:4000/skill/5e93243a2c3d19237c0f6b20
+Content-Type: application/json
+
+{
+    "name": "Capenter"
+}

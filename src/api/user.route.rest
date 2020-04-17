@@ -1,0 +1,44 @@
+GET http://localhost:4000/auth/
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODY4OTcxNjgsImV4cCI6MTU4NzA2OTk2OH0.N5T6JVLTBTUq99P3Vg_6dSo4jINd-Ug_16hRHtklHlk
+
+
+###
+
+GET http://localhost:4000/auth/5e91245ce294b743745795bd
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODY4OTcxNjgsImV4cCI6MTU4NzA2OTk2OH0.N5T6JVLTBTUq99P3Vg_6dSo4jINd-Ug_16hRHtklHlk
+
+###
+
+POST http://localhost:4000/auth/
+Content-Type: application/json
+
+{
+    "name": "hhhjnnjs",
+    "email": "Email",
+    "phone": "73773883833",
+    "password":"t7373y33"
+}
+
+###
+
+POST http://localhost:4000/auth/login
+Content-Type: application/json
+
+{
+    "email": "Email",
+    "password":"t7373y33"
+}
+
+###
+DELETE http://localhost:4000/auth/5e91245ce294b743745795bd
+
+
+### 
+
+PATCH http://localhost:4000/auth/5e91a66e18e7d9446cc4082e
+Content-Type: application/json
+
+{
+    "name": "andrew",
+    "password": "jdndd"
+}
