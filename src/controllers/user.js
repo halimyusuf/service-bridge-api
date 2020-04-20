@@ -10,7 +10,7 @@ export default class UserController {
         // const errObj = {}
         if (user === null) {
             return res
-                .status(404)
+                .status(400)
                 .send('Account with the email exist does not exist');
         }
         const match = await decrypt(password, user.password);
@@ -46,9 +46,8 @@ export default class UserController {
         }
         user = new User(req.body);
         const newUser = await user.save();
-        let token = newUser.generateAuthToken();
-        newUser.token = token;
-        res.header('auth-x-token', token).status(200).json(newUser);
+        const token = newUser.generateAuthToken();
+        res.header('auth-x-token', token).status(200).json({ token });
     });
 
     deleteUser = asyncHandler(async (req, res, next) => {

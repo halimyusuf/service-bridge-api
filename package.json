@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "nyc jest --detectOpenHandles",
+        "test": "jest --detectOpenHandles",
         "dev": "nodemon --exec babel-node ./src/server.js",
         "clean": "rm -rf build && mkdir build",
         "build-babel": "babel -d ./build ./src -s",
