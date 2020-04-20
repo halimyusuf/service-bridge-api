@@ -7,8 +7,11 @@ export default class UserController {
     login = asyncHandler(async (req, res, next) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
+        // const errObj = {}
         if (user === null) {
-            return res.status(404).send('User not found');
+            return res
+                .status(404)
+                .send('Account with the email exist does not exist');
         }
         const match = await decrypt(password, user.password);
         if (!match) {
@@ -16,7 +19,7 @@ export default class UserController {
         }
         const token = user.generateAuthToken();
         res.header('auth-x-token', token).send({
-            success: 'User logged in',
+            token,
         });
     });
 
@@ -39,11 +42,12 @@ export default class UserController {
         if (user !== null) {
             return res
                 .status(400)
-                .json({ error: 'User with this email address exists' });
+                .json({ error: 'An account with this email already exists' });
         }
         user = new User(req.body);
         const newUser = await user.save();
         let token = newUser.generateAuthToken();
+        newUser.token = token;
         res.header('auth-x-token', token).status(200).json(newUser);
     });
 

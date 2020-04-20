@@ -3,10 +3,13 @@ const Schema = mongoose.Schema;
 
 const artisanSchema = new Schema(
     {
-        skill: {
-            type: [Schema.Types.ObjectId],
-            ref: 'Skill',
-        },
+        skill: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Skill',
+            },
+        ],
+
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User',

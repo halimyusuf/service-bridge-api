@@ -3,17 +3,23 @@ import _ from 'lodash';
 import asyncHandler from '../utils/asyncWrapper';
 export default class ArtisanController {
     getArtisans = asyncHandler(async (req, res) => {
-        const artisans = await Artisan.find().populate();
+        const artisans = await Artisan.find()
+            .populate('user', '-password')
+            .populate('skill')
+            .exec();
         res.json(artisans);
     });
 
     getArtisan = asyncHandler(async (req, res) => {
-        res.json(res.artisan);
+        const artisan = res.artisan.populate('user');
+        res.json(artisan);
     });
 
     createArtisan = asyncHandler(async (req, res) => {
-        req.body = _.pick('experience', 'skill');
+        req.body = _.pick(req.body, 'experience', 'skill');
         req.body.user = req.user.id;
+        console.log(req.body);
+
         let newArtisan = new Artisan(req.body);
         newArtisan = await newArtisan.save();
         res.json(newArtisan);

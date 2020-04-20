@@ -1,12 +1,20 @@
-GET http://localhost:4000/service/
+GET http://localhost:4000/api/v1/service/
+
 
 ###
 
-GET http://localhost:4000/service/5e91245ce294b743745795bd
+GET http://localhost:4000/api/v1/service/myservices
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODczMjUwNDEsImV4cCI6MTU4NzQ5Nzg0MX0.sLTTVA2Fb9_0efYOaAoAW4j8ULspE_NnlBl2o5okC8k
 
 ###
 
-POST http://localhost:4000/service/
+GET http://localhost:4000/api/v1/service/5e91245ce294b743745795bd
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODczMjUwNDEsImV4cCI6MTU4NzQ5Nzg0MX0.sLTTVA2Fb9_0efYOaAoAW4j8ULspE_NnlBl2o5okC8k
+
+
+###
+
+POST http://localhost:4000/api/v1/service/
 Content-Type: application/json
 
 {
@@ -14,12 +22,12 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:4000/service/5e91245ce294b743745795bd
+DELETE http://localhost:4000/api/v1/service/5e91245ce294b743745795bd
 
 
 ### 
 
-PATCH http://localhost:4000/service/5e91a66e18e7d9446cc4082e
+PATCH http://localhost:4000/api/v1/service/5e91a66e18e7d9446cc4082e
 Content-Type: application/json
 
 {

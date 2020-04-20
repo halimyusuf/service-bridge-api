@@ -1,15 +1,15 @@
-GET http://localhost:4000/auth/
-auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODY4OTcxNjgsImV4cCI6MTU4NzA2OTk2OH0.N5T6JVLTBTUq99P3Vg_6dSo4jINd-Ug_16hRHtklHlk
+GET http://localhost:4000/api/v1/auth/
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODczMjUwNDEsImV4cCI6MTU4NzQ5Nzg0MX0.sLTTVA2Fb9_0efYOaAoAW4j8ULspE_NnlBl2o5okC8k
 
 
 ###
 
-GET http://localhost:4000/auth/5e91245ce294b743745795bd
+GET http://localhost:4000/api/v1/auth/5e91a66e18e7d9446cc4082e
 auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODY4OTcxNjgsImV4cCI6MTU4NzA2OTk2OH0.N5T6JVLTBTUq99P3Vg_6dSo4jINd-Ug_16hRHtklHlk
 
 ###
 
-POST http://localhost:4000/auth/
+POST http://localhost:4000/api/v1/auth/
 Content-Type: application/json
 
 {
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:4000/auth/login
+POST http://localhost:4000/api/v1/auth/login
 Content-Type: application/json
 
 {
@@ -30,12 +30,12 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:4000/auth/5e91245ce294b743745795bd
+DELETE http://localhost:4000/api/v1/auth/5e91a66e18e7d9446cc4082e
 
 
 ### 
 
-PATCH http://localhost:4000/auth/5e91a66e18e7d9446cc4082e
+PATCH http://localhost:4000/api/v1/auth/5e91a66e18e7d9446cc4082e
 Content-Type: application/json
 
 {

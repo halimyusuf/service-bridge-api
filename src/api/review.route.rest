@@ -1,12 +1,12 @@
-GET http://localhost:4000/review/
+GET http://localhost:4000/api/v1/review/
 
 ###
 
-GET http://localhost:4000/review/5e93243a2c3d19237c0f6b20
+GET http://localhost:4000/api/v1/review/5e93243a2c3d19237c0f6b20
 
 ###
 
-POST http://localhost:4000/review/
+POST http://localhost:4000/api/v1/review/
 Content-Type: application/json
 
 {
@@ -16,12 +16,12 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:4000/review/5e9325220407e812d4462b0c
+DELETE http://localhost:4000/api/v1/review/5e9325220407e812d4462b0c
 
 
 ### 
 
-PATCH http://localhost:4000/review/5e93243a2c3d19237c0f6b20
+PATCH http://localhost:4000/api/v1/review/5e93243a2c3d19237c0f6b20
 Content-Type: application/json
 
 {

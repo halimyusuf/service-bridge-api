@@ -1,26 +1,31 @@
-GET http://localhost:4000/artisan/
+GET http://localhost:4000/api/v1/artisan/
+# auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODczMjUwNDEsImV4cCI6MTU4NzQ5Nzg0MX0.sLTTVA2Fb9_0efYOaAoAW4j8ULspE_NnlBl2o5okC8k
+
 
 ###
 
-GET http://localhost:4000/artisan/5e93243a2c3d19237c0f6b20
+GET http://localhost:4000/api/v1/artisan/5e93243a2c3d19237c0f6b20
 
 ###
 
-POST http://localhost:4000/artisan/
+POST http://localhost:4000/api/v1/artisan/
 Content-Type: application/json
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODczMjUwNDEsImV4cCI6MTU4NzQ5Nzg0MX0.sLTTVA2Fb9_0efYOaAoAW4j8ULspE_NnlBl2o5okC8k
+
+
 
 {
-     "skill": "88",
-    "experience": "This is my experience"
+    "skill": ["5e9caa9d61d39c23cc870556", "5e93243a2c3d19237c0f6b20"],
+    "experience": "This is my experience computer"
 }
 
 ###
-DELETE http://localhost:4000/artisan/5e9325220407e812d4462b0c
+DELETE http://localhost:4000/api/v1/artisan/5e9325220407e812d4462b0c
 
 
 ### 
 
-PATCH http://localhost:4000/artisan/5e93243a2c3d19237c0f6b20
+PATCH http://localhost:4000/api/v1/artisan/5e93243a2c3d19237c0f6b20
 Content-Type: application/json
 
 {
