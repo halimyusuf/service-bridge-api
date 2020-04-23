@@ -8,6 +8,7 @@ describe('SKILL TESTS ', () => {
     let token, payload, skill, id;
     beforeAll(async () => {
         await Skill.deleteMany();
+        await User.deleteMany();
     });
 
     beforeAll(async () => {

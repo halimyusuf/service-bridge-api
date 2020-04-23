@@ -11,7 +11,7 @@ export default class ArtisanController {
     });
 
     getArtisan = asyncHandler(async (req, res) => {
-        const artisan = res.artisan.populate('user');
+        const artisan = await res.artisan.populate('user');
         res.json(artisan);
     });
 
@@ -24,7 +24,7 @@ export default class ArtisanController {
     });
 
     patchArtisan = asyncHandler(async (req, res) => {
-        if (req.user.id !== res.artisan.user._id || req.user.isAdmin) {
+        if (req.user.id != res.artisan.user && !req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
         if (req.body.experience) {
@@ -33,12 +33,12 @@ export default class ArtisanController {
         if (req.body.skill) {
             res.artisan.skill = req.body.skill;
         }
-        const updatedArtisan = res.artisan.save();
+        const updatedArtisan = await res.artisan.save();
         res.json(updatedArtisan);
     });
 
     deleteArtisan = asyncHandler(async (req, res) => {
-        if (req.user.id !== res.artisan.user._id || req.user.isAdmin) {
+        if (req.user.id != res.artisan.user && !req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
         await res.artisan.remove();
