@@ -16,8 +16,6 @@ export default class ServiceController {
     });
 
     getMyServices = asyncHandler(async (req, res) => {
-        console.log(req.user.id);
-
         let myServices = await Service.find({
             user: req.user.id,
         });

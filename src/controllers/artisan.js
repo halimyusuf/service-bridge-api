@@ -18,8 +18,6 @@ export default class ArtisanController {
     createArtisan = asyncHandler(async (req, res) => {
         req.body = _.pick(req.body, 'experience', 'skill');
         req.body.user = req.user.id;
-        console.log(req.body);
-
         let newArtisan = new Artisan(req.body);
         newArtisan = await newArtisan.save();
         res.json(newArtisan);
@@ -31,6 +29,9 @@ export default class ArtisanController {
         }
         if (req.body.experience) {
             res.artisan.experience = req.body.experience;
+        }
+        if (req.body.skill) {
+            res.artisan.skill = req.body.skill;
         }
         const updatedArtisan = res.artisan.save();
         res.json(updatedArtisan);

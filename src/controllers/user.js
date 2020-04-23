@@ -50,16 +50,8 @@ export default class UserController {
         res.header('auth-x-token', token).status(200).json({ token });
     });
 
-    deleteUser = asyncHandler(async (req, res, next) => {
-        if (req.user.isAdmin) {
-            return res.status(400).json({ error: 'Unauthorized request' });
-        }
-        await res.user.remove();
-        res.json({ message: 'Deleted user' });
-    });
-
     patchUser = asyncHandler(async (req, res, next) => {
-        if (req.user.id !== res.user._id || req.user.isAdmin) {
+        if (req.user.id != res.user._id || req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
         let updatedRecord = _.pick(req.body, 'name', 'phone', 'address');
@@ -68,5 +60,13 @@ export default class UserController {
         }
         const updatedUser = await res.user.save();
         res.json(updatedUser);
+    });
+
+    deleteUser = asyncHandler(async (req, res, next) => {
+        if (!req.user.isAdmin) {
+            return res.status(400).json({ error: 'Unauthorized request' });
+        }
+        await res.user.remove();
+        res.json({ message: 'Deleted user' });
     });
 }

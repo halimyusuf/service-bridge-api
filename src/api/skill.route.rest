@@ -1,5 +1,5 @@
 GET http://localhost:4000/api/v1/skill/
-auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODczMjUwNDEsImV4cCI6MTU4NzQ5Nzg0MX0.sLTTVA2Fb9_0efYOaAoAW4j8ULspE_NnlBl2o5okC8k
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTBkNGQ5MTExNDY4MmUyODIyYzI5MCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODc1OTg1NTMsImV4cCI6MTU4Nzc3MTM1M30.53727MG5wllvt9zxPqO1-GC16FsRWns3z4CTlkOxc1g
 
 
 ###
@@ -10,7 +10,7 @@ GET http://localhost:4000/api/v1/skill/5e93243a2c3d19237c0f6b20
 
 POST http://localhost:4000/api/v1/skill/
 Content-Type: application/json
-auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5NDQ2Y2M0MDgyZSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODczMjUwNDEsImV4cCI6MTU4NzQ5Nzg0MX0.sLTTVA2Fb9_0efYOaAoAW4j8ULspE_NnlBl2o5okC8k
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTBkNGQ5MTExNDY4MmUyODIyYzI5MCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODc1OTg1NTMsImV4cCI6MTU4Nzc3MTM1M30.53727MG5wllvt9zxPqO1-GC16FsRWns3z4CTlkOxc1g
 
 {
     "name": "Computer Engineer"
@@ -18,12 +18,15 @@ auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTFhNjZlMThlN2Q5N
 
 ###
 DELETE http://localhost:4000/api/v1/skill/5e9325220407e812d4462b0c
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTBkNGQ5MTExNDY4MmUyODIyYzI5MCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODc1OTg1NTMsImV4cCI6MTU4Nzc3MTM1M30.53727MG5wllvt9zxPqO1-GC16FsRWns3z4CTlkOxc1g
 
 
 ### 
 
-PATCH http://localhost:4000/api/v1/skill/5e93243a2c3d19237c0f6b20
+PATCH http://localhost:4000/api/v1/skill/5ea0d52d1114682e2822c291
 Content-Type: application/json
+auth-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTBkNGQ5MTExNDY4MmUyODIyYzI5MCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1ODc1OTg1NTMsImV4cCI6MTU4Nzc3MTM1M30.53727MG5wllvt9zxPqO1-GC16FsRWns3z4CTlkOxc1g
+
 
 {
     "name": "Capenter"

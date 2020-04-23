@@ -1,26 +1,27 @@
-import app from '../src/server';
 import request from 'supertest';
+import server from '../src/server';
 import User from '../src/models/user';
-
-const defaultUSer = {
-    email: 'email@gmail.com',
-    password: 'password123',
-    name: 'james arthur',
-    phone: '09056633902',
-};
+import getAuthDetails from './helper';
+// let server;
 
 describe('Tests for users endpoints', () => {
     beforeAll(async () => {
         await User.deleteMany();
     });
-    afterAll(() => {
-        app.close();
-    });
+    // beforeEach(() => {
+    //     server = require('../src/server');
+    // });
+    // afterEach(async () => {
+    //     await server.close();
+    //     await User.remove({});
+    // });
+
+    // posts requests tests
     describe('post /user', () => {
         let name, email, phone, password;
         let id = '';
         const exec = async () =>
-            await request(app).post(`/api/v1/auth/${id}`).send({
+            await request(server).post(`/api/v1/auth/${id}`).send({
                 name,
                 email,
                 phone,
@@ -59,33 +60,81 @@ describe('Tests for users endpoints', () => {
         });
     });
 
+    // get users
     describe('user get requests tests', () => {
-        let user;
-        let id;
-        let token;
+        let payload, id, token;
         const exec = async () =>
-            await request(app)
+            await request(server)
                 .get(`/api/v1/auth/${id}`)
                 .set('auth-x-token', token);
         beforeAll(async () => {
-            user = new User(defaultUSer);
-            user = await user.save();
-            token = user.generateAuthToken();
+            payload = await getAuthDetails(false);
         });
         beforeEach(() => {
             id = '';
+            token = payload.token;
         });
         it('should return all users', async () => {
             const res = await exec();
             expect(res.status).toBe(200);
         });
         it('should return a specific user', async () => {
-            id = user._id;
+            id = payload.id;
             const res = await exec();
             expect(res.status).toBe(200);
         });
         it('should return 404 for post with invalid id', async () => {
             id = '5e9e243ac9a91b2af463f0b0';
+            const res = await exec();
+            expect(res.status).toBe(404);
+        });
+    });
+
+    // patch requests
+    describe('user patch requests', () => {
+        let payload, id, token, name, phone;
+        const exec = async () =>
+            await request(server)
+                .patch(`/api/v1/auth/${id}`)
+                .send({
+                    name,
+                    phone,
+                })
+                .set('auth-x-token', token);
+        beforeAll(async () => {
+            payload = await getAuthDetails(false);
+            token = payload.token;
+        });
+        beforeEach(() => {
+            name = '';
+            phone = '';
+        });
+        it('should patch user details', async () => {
+            id = payload.id;
+            [name, phone] = ['patched name', '08056772344'];
+            const res = await exec();
+            expect(res.status).toBe(200);
+            expect(res.body.name).toBe(name);
+            expect(res.body.phone).toBe(phone);
+        });
+    });
+
+    // delete requests tests
+    describe('user delete requests', () => {
+        let id, token;
+        const exec = async () =>
+            await request(server)
+                .delete(`/api/v1/auth/${id}`)
+                .set('auth-x-token', token);
+        beforeAll(async () => {
+            const payload = await getAuthDetails(true);
+            [id, token] = [payload.id, payload.token];
+        });
+        it('should delete a user', async () => {
+            const res = await exec();
+            expect(res.status).toBe(200);
+        });
+        it('should return 404 since user has been deleted once', async () => {
             const res = await exec();
             expect(res.status).toBe(404);
         });
