@@ -4,7 +4,7 @@ import User from '../models/user';
 import { hash, decrypt } from '../utils/hash';
 
 export default class UserController {
-    login = asyncHandler(async (req, res, next) => {
+    login = asyncHandler(async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         // const errObj = {}
@@ -35,7 +35,7 @@ export default class UserController {
         res.status(200).json(res.user);
     }
 
-    createUser = asyncHandler(async (req, res, next) => {
+    createUser = asyncHandler(async (req, res) => {
         req.body = _.pick(req.body, 'name', 'email', 'password', 'phone');
         req.body.password = await hash(req.body.password);
         let user = await User.findOne({ email: req.body.email });
@@ -50,8 +50,8 @@ export default class UserController {
         res.header('auth-x-token', token).status(200).json({ token });
     });
 
-    patchUser = asyncHandler(async (req, res, next) => {
-        if (req.user.id != res.user._id || req.user.isAdmin) {
+    patchUser = asyncHandler(async (req, res) => {
+        if (req.user.id != res.user._id && req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
         let updatedRecord = _.pick(req.body, 'name', 'phone', 'address');
@@ -62,7 +62,7 @@ export default class UserController {
         res.json(updatedUser);
     });
 
-    deleteUser = asyncHandler(async (req, res, next) => {
+    deleteUser = asyncHandler(async (req, res) => {
         if (!req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }

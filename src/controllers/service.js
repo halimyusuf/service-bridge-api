@@ -4,21 +4,25 @@ import _ from 'lodash';
 export default class ServiceController {
     createService = asyncHandler(async (req, res) => {
         req.body = _.pick(req.body, 'artisan');
-        req.body.user = req.user.id;
+        req.body.customer = req.user.id;
         let newService = new Service(req.body);
         newService = await newService.save();
         res.json(newService);
     });
 
     getService = asyncHandler(async (req, res) => {
-        const service = await res.service.populate();
+        const service = await res.service
+            .populate('customer')
+            .populate('artisan');
         res.json(service);
     });
 
     getMyServices = asyncHandler(async (req, res) => {
         let myServices = await Service.find({
-            user: req.user.id,
-        });
+            customer: req.user.id,
+        })
+            .populate('customer')
+            .populate('artisan');
         res.json(myServices);
     });
 
@@ -35,7 +39,7 @@ export default class ServiceController {
     });
 
     patchService = asyncHandler(async (req, res) => {
-        if (req.user.id !== res.service.user._id || req.user.isAdmin) {
+        if (req.user.id != res.service.customer && req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
         if (req.body.status !== null) {
@@ -46,7 +50,7 @@ export default class ServiceController {
     });
 
     deleteService = asyncHandler(async (req, res) => {
-        if (req.user.id !== res.service.user._id || req.user.isAdmin) {
+        if (req.user.id != res.service.customer && req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
         await res.service.remove();
