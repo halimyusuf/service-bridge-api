@@ -1,16 +1,25 @@
-import request from 'supertest';
-import server from '../src/server';
+import supertest from 'supertest';
+import http from 'http';
+import mongoose from 'mongoose';
+import app from '../src/server';
 import Service from '../src/models/service';
 import Review from '../src/models/review';
 import User from '../src/models/user';
 import getAuthDetails from './helper';
 
 describe('review test suites ', () => {
-    let review, payload, id, token, service;
-    beforeAll(async () => {
+    let review, payload, id, token, service, server, request;
+    beforeAll(async (done) => {
+        server = http.createServer(app);
+        server.listen(done);
+        request = supertest(server);
         await Review.deleteMany();
         await Service.deleteMany();
         await User.deleteMany();
+    });
+    afterAll((done) => {
+        server.close(done);
+        mongoose.disconnect();
     });
     beforeEach(async () => {
         payload = await getAuthDetails(true);
@@ -24,7 +33,7 @@ describe('review test suites ', () => {
     describe('review post requests routes tests', () => {
         let message;
         const exec = async () =>
-            await request(server)
+            await request
                 .post(`/api/v1/review`)
                 .set('auth-x-token', token)
                 .send({ message });
@@ -40,7 +49,7 @@ describe('review test suites ', () => {
     describe('review get requests test routes', () => {
         let reviewId;
         const exec = async () =>
-            await request(server)
+            await request
                 .get(`/api/v1/review/${reviewId}`)
                 .set('auth-x-token', token);
         beforeAll(() => {
@@ -60,7 +69,7 @@ describe('review test suites ', () => {
     describe('review get requests test routes', () => {
         let reviewId, message;
         const exec = async () =>
-            await request(server)
+            await request
                 .patch(`/api/v1/review/${reviewId}`)
                 .set('auth-x-token', token)
                 .send({ message });
@@ -79,7 +88,7 @@ describe('review test suites ', () => {
     describe('review delete requests test routes', () => {
         let reviewId;
         const exec = async () =>
-            await request(server)
+            await request
                 .delete(`/api/v1/review/${reviewId}`)
                 .set('auth-x-token', token);
         beforeEach(() => {

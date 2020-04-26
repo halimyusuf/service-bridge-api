@@ -1,5 +1,7 @@
-import request from 'supertest';
-import server from '../src/server';
+import supertest from 'supertest';
+import http from 'http';
+import mongoose from 'mongoose';
+import app from '../src/server';
 import Artisan from '../src/models/artisan';
 import Service from '../src/models/service';
 import Skill from '../src/models/skill';
@@ -7,11 +9,18 @@ import User from '../src/models/user';
 import getAuthDetails from './helper';
 
 describe('service tests suites ', () => {
-    let artisan, skill, payload, id, token, service;
-    beforeAll(async () => {
+    let artisan, skill, payload, id, token, service, request, server;
+    beforeAll(async (done) => {
+        server = http.createServer(app);
+        server.listen(done);
+        request = supertest(server);
         await Artisan.deleteMany();
         await Service.deleteMany();
         await User.deleteMany();
+    });
+    afterAll((done) => {
+        server.close(done);
+        mongoose.disconnect();
     });
     beforeEach(async () => {
         payload = await getAuthDetails(true);
@@ -31,7 +40,7 @@ describe('service tests suites ', () => {
     describe('get all services', () => {
         let serviceId = '';
         const exec = async () =>
-            await request(server)
+            await request
                 .get(`/api/v1/service/${serviceId}`)
                 .set('auth-x-token', token);
         it('should return all services', async () => {
@@ -53,13 +62,14 @@ describe('service tests suites ', () => {
     describe('services post routes tests', () => {
         let artisanId;
         const exec = async () =>
-            await request(server)
+            await request
                 .post(`/api/v1/service`)
                 .set('auth-x-token', token)
                 .send({ artisan: artisanId });
         it('should create a new service', async () => {
             artisanId = artisan._id;
             const res = await exec();
+            console.log(res.body);
             expect(res.status).toBe(200);
         });
     });
@@ -67,13 +77,14 @@ describe('service tests suites ', () => {
     describe('services patch routes tests', () => {
         let serviceId;
         const exec = async () =>
-            await request(server)
+            await request
                 .patch(`/api/v1/service/${serviceId}`)
                 .set('auth-x-token', token)
                 .send({ status: 'done' });
         it('should patch service', async () => {
             serviceId = service._id;
             const res = await exec();
+            console.log(res.body);
             expect(res.status).toBe(200);
         });
     });
@@ -81,7 +92,7 @@ describe('service tests suites ', () => {
     describe('services delete routes tests', () => {
         let serviceId;
         const exec = async () =>
-            await request(server)
+            await request
                 .delete(`/api/v1/service/${serviceId}`)
                 .set('auth-x-token', token);
         it('should delete service', async () => {

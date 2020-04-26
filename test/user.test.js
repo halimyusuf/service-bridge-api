@@ -1,27 +1,31 @@
-import request from 'supertest';
-import server from '../src/server';
+import supertest from 'supertest';
+import http from 'http';
+import mongoose from 'mongoose';
+import app from '../src/server';
 import User from '../src/models/user';
 import getAuthDetails from './helper';
 // let server;
 
 describe('Tests for users endpoints', () => {
-    beforeAll(async () => {
+    let request, server;
+    beforeAll(async (done) => {
+        server = http.createServer(app);
+        server.listen(done);
+        request = supertest(server);
         await User.deleteMany();
     });
-    // beforeEach(() => {
-    //     server = require('../src/server');
-    // });
-    // afterEach(async () => {
-    //     await server.close();
-    //     await User.remove({});
-    // });
+
+    afterAll((done) => {
+        server.close(done);
+        mongoose.disconnect();
+    });
 
     // posts requests tests
     describe('post /user', () => {
         let name, email, phone, password;
         let id = '';
         const exec = async () =>
-            await request(server).post(`/api/v1/auth/${id}`).send({
+            await request.post(`/api/v1/auth/${id}`).send({
                 name,
                 email,
                 phone,
@@ -64,9 +68,7 @@ describe('Tests for users endpoints', () => {
     describe('user get requests tests', () => {
         let payload, id, token;
         const exec = async () =>
-            await request(server)
-                .get(`/api/v1/auth/${id}`)
-                .set('auth-x-token', token);
+            await request.get(`/api/v1/auth/${id}`).set('auth-x-token', token);
         beforeAll(async () => {
             payload = await getAuthDetails(false);
         });
@@ -94,7 +96,7 @@ describe('Tests for users endpoints', () => {
     describe('user patch requests', () => {
         let payload, id, token, name, phone;
         const exec = async () =>
-            await request(server)
+            await request
                 .patch(`/api/v1/auth/${id}`)
                 .send({
                     name,
@@ -123,7 +125,7 @@ describe('Tests for users endpoints', () => {
     describe('user delete requests', () => {
         let id, token;
         const exec = async () =>
-            await request(server)
+            await request
                 .delete(`/api/v1/auth/${id}`)
                 .set('auth-x-token', token);
         beforeAll(async () => {

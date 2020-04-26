@@ -1,28 +1,39 @@
-import request from 'supertest';
-import server from '../src/server';
+import supertest from 'supertest';
+import http from 'http';
+import mongoose from 'mongoose';
+import app from '../src/server';
 import Skill from '../src/models/skill';
+import User from '../src/models/user';
 import getAuthDetails from './helper';
 // let server;
 
 describe('SKILL TESTS ', () => {
-    let token, payload, skill, id;
-    beforeAll(async () => {
+    let token, payload, skill, id, request, server;
+    beforeAll(async (done) => {
+        server = http.createServer(app);
+        server.listen(done);
+        request = supertest(server);
         await Skill.deleteMany();
         await User.deleteMany();
     });
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         payload = await getAuthDetails(true);
         [id, token] = [payload.id, payload.token];
         skill = new Skill({ name: 'Capenter' });
         skill = await skill.save();
     });
 
+    afterAll((done) => {
+        server.close(done);
+        mongoose.disconnect();
+    });
+
     // post requests
     describe('create a new skill', () => {
         let name;
         const exec = async () =>
-            await request(server)
+            await request
                 .post(`/api/v1/skill/`)
                 .send({ name })
                 .set('auth-x-token', token);
@@ -37,9 +48,7 @@ describe('SKILL TESTS ', () => {
     describe('get all skills', () => {
         let token, payload;
         const exec = async () =>
-            await request(server)
-                .get('/api/v1/skill')
-                .set('auth-x-token', token);
+            await request.get('/api/v1/skill').set('auth-x-token', token);
         beforeAll(async () => {
             payload = await getAuthDetails(true);
             token = payload.token;
@@ -54,7 +63,7 @@ describe('SKILL TESTS ', () => {
     describe('tests for skill patch requests', () => {
         let name;
         const exec = async () =>
-            await request(server)
+            await request
                 .patch(`/api/v1/skill/${id}`)
                 .send({ name })
                 .set('auth-x-token', token);
@@ -76,7 +85,7 @@ describe('SKILL TESTS ', () => {
     });
     describe('should delete skill', () => {
         const exec = async () =>
-            await request(server)
+            await request
                 .delete(`/api/v1/skill/${id}`)
                 .set('auth-x-token', token);
         it('should delete skill ', async () => {

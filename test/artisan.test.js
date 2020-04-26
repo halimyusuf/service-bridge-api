@@ -1,15 +1,24 @@
-import request from 'supertest';
-import server from '../src/server';
+import supertest from 'supertest';
+import http from 'http';
+import mongoose from 'mongoose';
+import app from '../src/server';
 import Artisan from '../src/models/artisan';
 import Skill from '../src/models/skill';
 import getAuthDetails from './helper';
 import User from '../src/models/user';
 
 describe('artisan test suites', () => {
-    let artisan, skill, payload, id, token;
-    beforeAll(async () => {
+    let artisan, skill, payload, id, token, server, request;
+    beforeAll(async (done) => {
+        server = http.createServer(app);
+        server.listen(done);
+        request = supertest(server);
         await Artisan.deleteMany();
         await User.deleteMany();
+    });
+    afterAll((done) => {
+        server.close(done);
+        mongoose.disconnect();
     });
     beforeEach(async () => {
         payload = await getAuthDetails(false);
@@ -27,7 +36,7 @@ describe('artisan test suites', () => {
     describe('artisan post routes', () => {
         let experience;
         const exec = async () =>
-            await request(server)
+            await request
                 .post(`/api/v1/artisan`)
                 .set('auth-x-token', token)
                 .send({ skill: [skill], experience });
@@ -43,9 +52,7 @@ describe('artisan test suites', () => {
 
     describe('get all artisans', () => {
         const exec = async () =>
-            await request(server)
-                .get(`/api/v1/artisan`)
-                .set('auth-x-token', token);
+            await request.get(`/api/v1/artisan`).set('auth-x-token', token);
         it('should return all artisans', async () => {
             const res = await exec();
             expect(res.status).toBe(200);
@@ -55,7 +62,7 @@ describe('artisan test suites', () => {
     describe('should patch artisan', () => {
         let experience, patchedSkill;
         const exec = async () =>
-            await request(server)
+            await request
                 .patch(`/api/v1/artisan/${id}`)
                 .send({ experience, skill: patchedSkill })
                 .set('auth-x-token', token);
@@ -80,10 +87,9 @@ describe('artisan test suites', () => {
     // artisan delete requests
     describe('artisan delete requests', () => {
         const exec = async () =>
-            await request(server)
+            await request
                 .delete(`/api/v1/artisan/${id}`)
                 .set('auth-x-token', token);
-
         it('should return artisan not found(404)', async () => {
             const res = await exec();
             expect(res.status).toBe(404);
@@ -92,8 +98,6 @@ describe('artisan test suites', () => {
         it('should delete artisan', async () => {
             id = artisan._id;
             const res = await exec();
-            console.log(res.body);
-
             expect(res.status).toBe(200);
         });
     });

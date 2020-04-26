@@ -1,5 +1,5 @@
 import Service from '../models/service';
-import Artisan from '../models/service';
+import Artisan from '../models/artisan';
 import asyncHandler from '../utils/asyncWrapper';
 import _ from 'lodash';
 export default class ServiceController {

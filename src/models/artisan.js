@@ -15,9 +15,15 @@ const artisanSchema = new Schema(
             ref: 'User',
         },
         experience: String,
-        offers: Number,
+        offers: {
+            type: Number,
+            default: 0,
+        },
         location: String,
-        done: Number,
+        done: {
+            type: Number,
+            default: 0,
+        },
     },
     { timestamps: true }
 );

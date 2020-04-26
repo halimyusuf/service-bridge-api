@@ -10,4 +10,5 @@ export default {
     DB_URL: process.env.DB_URL,
     port: process.env.PORT,
     JwtKey: process.env.jwtPrivateKey,
+    NODE_ENV: process.env.NODE_ENV,
 };
