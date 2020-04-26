@@ -17,7 +17,7 @@ const artisanSchema = new Schema(
         experience: String,
         offers: Number,
         location: String,
-        completed: Number,
+        done: Number,
     },
     { timestamps: true }
 );

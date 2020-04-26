@@ -1,9 +1,13 @@
 import Service from '../models/service';
+import Artisan from '../models/service';
 import asyncHandler from '../utils/asyncWrapper';
 import _ from 'lodash';
 export default class ServiceController {
     createService = asyncHandler(async (req, res) => {
         req.body = _.pick(req.body, 'artisan');
+        let artisan = await Artisan.findById(req.body.artisan);
+        artisan.offers += 1;
+        await artisan.save();
         req.body.customer = req.user.id;
         let newService = new Service(req.body);
         newService = await newService.save();
@@ -44,6 +48,11 @@ export default class ServiceController {
         }
         if (req.body.status !== null) {
             res.service.status = req.body.status;
+            if (res.service.status == 'done') {
+                const artisan = await Artisan.findById(res.service.artisan);
+                artisan.done += 1;
+                await artisan.save();
+            }
         }
         const patchedStatus = await res.service.save();
         res.json(patchedStatus);
