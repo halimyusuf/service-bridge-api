@@ -54,7 +54,8 @@ export default class UserController {
         if (req.user.id != res.user._id && req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
-        let updatedRecord = _.pick(req.body, 'name', 'phone', 'address');
+        const fields = ['name', 'phone', 'address', 'imgUrl'];
+        let updatedRecord = _.pick(req.body, ...fields);
         for (let field of Object.keys(updatedRecord)) {
             res.user[field] = updatedRecord[field];
         }

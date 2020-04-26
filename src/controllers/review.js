@@ -4,7 +4,7 @@ import asyncHandler from '../utils/asyncWrapper';
 
 export default class ReviewController {
     createReview = asyncHandler(async (req, res) => {
-        req.body = _.pick(req.body, 'message', 'ratings');
+        req.body = _.pick(req.body, 'message', 'rating');
         req.body.user = req.user._id;
         let newReview = new Review(req.body);
         newReview = await newReview.save();
