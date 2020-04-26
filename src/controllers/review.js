@@ -5,13 +5,14 @@ import asyncHandler from '../utils/asyncWrapper';
 export default class ReviewController {
     createReview = asyncHandler(async (req, res) => {
         req.body = _.pick(req.body, 'message', 'ratings');
+        req.body.user = req.user._id;
         let newReview = new Review(req.body);
         newReview = await newReview.save();
         res.json(newReview);
     });
 
     getReviews = asyncHandler(async (req, res) => {
-        const reviews = Review.find();
+        const reviews = await Review.find();
         res.json(reviews);
     });
 
@@ -20,13 +21,18 @@ export default class ReviewController {
     });
 
     patchReview = asyncHandler(async (req, res) => {
-        if (req.user.id !== res.review.user._id || req.user.isAdmin) {
+        if (req.user.id != res.review.user && req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
+        if (req.body.message) {
+            res.review.message = req.body.message;
+        }
+        const review = await res.review.save();
+        res.json(review);
     });
 
     deleteReview = asyncHandler(async (req, res) => {
-        if (req.user.id !== res.review.user._id || req.user.isAdmin) {
+        if (req.user.id != res.review.user._id && req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
         }
         await res.review.remove();
