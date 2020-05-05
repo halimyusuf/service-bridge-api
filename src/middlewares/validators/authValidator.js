@@ -1,7 +1,7 @@
 import { check } from 'express-validator';
 
-export default () => {
-    return [
+export default {
+    signUp: [
         check('email').isEmail().withMessage('Enter a valid email'),
 
         check('password')
@@ -30,5 +30,17 @@ export default () => {
             .withMessage('must be at least 10 chars long')
             .matches(/\d{10,}/)
             .withMessage('can only be a number'),
-    ];
+    ],
+    signIn: [
+        check('email').isEmail().withMessage('Enter a valid email'),
+
+        check('password')
+            .trim()
+            .isLength({
+                min: 7,
+            })
+            .withMessage('must be at least 7 chars long')
+            .matches(/\d/)
+            .withMessage('must contain a number'),
+    ],
 };

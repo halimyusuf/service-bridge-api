@@ -9,8 +9,7 @@ export default () => {
             })
             .withMessage('Must contain at least one char'),
         check('rating')
-            .trim()
-            .matches(/[12345]{1}/)
+            .matches(/^[12345]{1}$/)
             .withMessage('Can only be a num from 1-5'),
     ];
 };

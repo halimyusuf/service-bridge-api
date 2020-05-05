@@ -1,10 +1,14 @@
 import Review from '../models/review';
 import _ from 'lodash';
+import validatorErr from '../utils/validatorErr';
 import asyncHandler from '../utils/asyncWrapper';
 
 export default class ReviewController {
     createReview = asyncHandler(async (req, res) => {
+        const err = validatorErr(req, res);
+        if (err !== null) return;
         req.body = _.pick(req.body, 'message', 'rating');
+        req.body.rating = Number(req.body.rating);
         req.body.user = req.user._id;
         let newReview = new Review(req.body);
         newReview = await newReview.save();

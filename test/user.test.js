@@ -37,7 +37,7 @@ describe('Tests for users endpoints', () => {
                 name = 'testing';
                 phone = '07034490454';
                 email = 'testing@gmail.com';
-                password = 'apss123';
+                password = 'pass123';
             }
         });
         it('create a new user', async () => {
@@ -58,9 +58,16 @@ describe('Tests for users endpoints', () => {
         });
         it('tests for invalid password login', async () => {
             id = 'login';
-            password = 'pass';
+            password = 'pass1234';
             const res = await exec();
             expect(res.status).toBe(400);
+        });
+        it('tests for invalid request body', async () => {
+            id = 'login';
+            email = 'email';
+            password = 'pass';
+            const res = await exec();
+            expect(res.status).toBe(422);
         });
     });
 

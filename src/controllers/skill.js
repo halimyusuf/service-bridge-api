@@ -1,9 +1,12 @@
 import Skill from '../models/skill';
 import asyncHandler from '../utils/asyncWrapper';
+import validatorErr from '../utils/validatorErr';
 import _ from 'lodash';
 
 export default class SkillController {
     createSkill = asyncHandler(async (req, res) => {
+        const err = validatorErr(req, res);
+        if (err !== null) return;
         req.body = _.pick(req.body, 'name');
         let skill = await Skill.find({ name: req.body.name });
         if (skill.length !== 0) {

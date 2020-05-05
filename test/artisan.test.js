@@ -41,7 +41,8 @@ describe('artisan test suites', () => {
                 .set('auth-x-token', token)
                 .send({ skill: [skill], experience });
         beforeEach(async () => {
-            experience = 'This is a new experience';
+            experience =
+                'Quae suscipit vel consequatur soluta cumque officiis repellendus quos odio. Odio et deleniti libero non recusandae consequuntur architecto veniam. Ab neque est laboriosam aut. Delectus omnis doloribus dignissimos deleniti vitae temporibus quia. Beatae impedit repellat. Et fuga incidunt voluptatem cumque quas.This is a new experience';
         });
 
         it('should create a new artisan', async () => {
@@ -69,7 +70,8 @@ describe('artisan test suites', () => {
         beforeAll(async () => {
             let newSkill = new Skill({ name: 'Tailor' });
             newSkill = await newSkill.save();
-            experience = 'This is the edited experience';
+            experience =
+                'This is the edited experience velit quo quo helveitc somme sothe';
             patchedSkill = [skill._id, newSkill._id];
         });
 

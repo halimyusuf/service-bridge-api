@@ -1,17 +1,20 @@
 import _ from 'lodash';
 import asyncHandler from '../utils/asyncWrapper';
 import User from '../models/user';
+import validatorErr from '../utils/validatorErr';
 import { hash, decrypt } from '../utils/hash';
 
 export default class UserController {
     login = asyncHandler(async (req, res) => {
+        const err = validatorErr(req, res);
+        if (err !== null) return;
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         // const errObj = {}
         if (user === null) {
             return res
                 .status(400)
-                .send('Account with the email exist does not exist');
+                .json({ error: 'Account with the email exist does not exist' });
         }
         const match = await decrypt(password, user.password);
         if (!match) {
@@ -36,6 +39,8 @@ export default class UserController {
     }
 
     createUser = asyncHandler(async (req, res) => {
+        const err = validatorErr(req, res);
+        if (err !== null) return;
         req.body = _.pick(req.body, 'name', 'email', 'password', 'phone');
         req.body.password = await hash(req.body.password);
         let user = await User.findOne({ email: req.body.email });

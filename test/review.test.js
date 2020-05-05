@@ -31,18 +31,29 @@ describe('review test suites ', () => {
     });
 
     describe('review post requests routes tests', () => {
-        let message;
+        let message, rating;
         const exec = async () =>
             await request
                 .post(`/api/v1/review`)
                 .set('auth-x-token', token)
-                .send({ message });
+                .send({ message, rating });
         beforeEach(() => {
             message = 'Good job';
+            rating = '3';
         });
         it('should create a new review', async () => {
             const res = await exec();
             expect(res.status).toBe(200);
+        });
+        it('should return 422 if rating is not valid', async () => {
+            rating = '6';
+            const res = await exec();
+            expect(res.status).toBe(422);
+        });
+        it('should return 422 if message is not valid', async () => {
+            message = '';
+            const res = await exec();
+            expect(res.status).toBe(422);
         });
     });
 
@@ -79,8 +90,6 @@ describe('review test suites ', () => {
         });
         it('should patch review', async () => {
             const res = await exec();
-            console.log(res.body);
-
             expect(res.status).toBe(200);
         });
     });

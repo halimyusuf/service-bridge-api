@@ -1,6 +1,7 @@
 import express from 'express';
 import auth from '../middlewares/validateUser';
 import adminAuth from '../middlewares/validateAdmin';
+// import validate from "../middlewares/validators/serviceValidator"
 import Service from '../controllers/service';
 import getService from '../middlewares/getService';
 const ServiceRouter = express.Router();
