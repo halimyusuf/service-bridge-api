@@ -13,7 +13,7 @@ const serviceSchema = new Schema(
         },
         status: {
             type: String,
-            default: 'pending approval',
+            default: 'Pending',
         },
         customer: {
             type: Schema.Types.ObjectId,

@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema(
             unique: true,
         },
         phone: String,
-        address: String,
         imgUrl: String,
         password: String,
         artisan: {
