@@ -30,6 +30,13 @@ const artisanSchema = new Schema(
             { twitter: String },
             { instagram: String },
         ],
+        favorites: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+                unique: true,
+            },
+        ],
     },
     { timestamps: true }
 );
