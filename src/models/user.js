@@ -21,6 +21,13 @@ const userSchema = Schema(
             type: Boolean,
             default: false,
         },
+        favorites: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+                unique: true,
+            },
+        ],
     },
     { timestamps: true }
 );
