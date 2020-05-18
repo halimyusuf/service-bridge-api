@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
+const Schema = mongoose.Schema;
 import config from '../config';
-const userSchema = new mongoose.Schema(
+
+const userSchema = Schema(
     {
         name: String,
         email: {
@@ -19,6 +21,13 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        favorites: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Artisan',
+                unique: true,
+            },
+        ],
     },
     { timestamps: true }
 );
