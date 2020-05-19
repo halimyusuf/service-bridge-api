@@ -34,6 +34,14 @@ export default class UserController {
         await res.user.save();
     });
 
+    removeFromFavorite = asyncHandler(async (req, res) => {
+        const favorites = res.user._id.favorites;
+        res.user._id.favorites = [
+            ...new Set(favorites).delete(req.params.artisanId),
+        ];
+        await res.user.save();
+    });
+
     async getUsers(req, res) {
         if (req.user.isAdmin) {
             return res.status(400).json({ error: 'Unauthorized request' });
