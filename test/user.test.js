@@ -3,16 +3,32 @@ import http from 'http';
 import mongoose from 'mongoose';
 import app from '../src/server';
 import User from '../src/models/user';
+import Skill from '../src/models/skill';
+import Artisan from '../src/models/artisan';
 import getAuthDetails from './helper';
 // let server;
 
 describe('Tests for users endpoints', () => {
-    let request, server;
+    let request, server, artisan, skill, payload, token, id;
     beforeAll(async (done) => {
         server = http.createServer(app);
         server.listen(done);
         request = supertest(server);
+        await Artisan.deleteMany();
         await User.deleteMany();
+    });
+
+    beforeEach(async () => {
+        payload = await getAuthDetails(false);
+        skill = new Skill({ name: 'Furniture' });
+        skill = await skill.save();
+        [id, token] = Object.values(payload);
+        artisan = new Artisan({
+            experience: 'new experience',
+            skill: [skill._id],
+            user: id,
+        });
+        artisan = await artisan.save();
     });
 
     afterAll((done) => {
@@ -68,6 +84,35 @@ describe('Tests for users endpoints', () => {
             password = 'pass';
             const res = await exec();
             expect(res.status).toBe(422);
+        });
+    });
+
+    describe('favorites routes tests', () => {
+        let payload, id, token, artisanId, type;
+        const exec = async () =>
+            await request
+                .post(`/api/v1/auth/${id}/${artisanId}/${type}`)
+                .set('auth-x-token', token);
+        beforeAll(async () => {
+            artisanId = artisan._id;
+            payload = await getAuthDetails(false);
+        });
+        beforeEach(() => {
+            id = payload.id;
+            token = payload.token;
+        });
+        it('should add to favorites', async () => {
+            type = 'add';
+            const res = await exec();
+            expect(res.status).toBe(200);
+            expect(res.body.favorites.length).toBe(1);
+        });
+
+        it('should remove favorites', async () => {
+            type = 'remove';
+            const res = await exec();
+            expect(res.status).toBe(200);
+            expect(res.body.favorites.length).toBe(0);
         });
     });
 
