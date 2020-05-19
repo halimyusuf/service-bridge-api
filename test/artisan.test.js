@@ -34,15 +34,24 @@ describe('artisan test suites', () => {
     });
 
     describe('artisan post routes', () => {
-        let experience;
+        let experience, facebook, instagram, twitter;
         const exec = async () =>
             await request
                 .post(`/api/v1/artisan`)
                 .set('auth-x-token', token)
-                .send({ skill: [skill], experience });
+                .send({
+                    skill: [skill],
+                    experience,
+                    facebook,
+                    instagram,
+                    twitter,
+                });
         beforeEach(async () => {
             experience =
                 'Quae suscipit vel consequatur soluta cumque officiis repellendus quos odio. Odio et deleniti libero non recusandae consequuntur architecto veniam. Ab neque est laboriosam aut. Delectus omnis doloribus dignissimos deleniti vitae temporibus quia. Beatae impedit repellat. Et fuga incidunt voluptatem cumque quas.This is a new experience';
+            facebook = 'facebook.com';
+            instagram = 'instagram.com';
+            twitter = 'twittwe.com';
         });
 
         it('should create a new artisan', async () => {

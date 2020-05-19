@@ -29,13 +29,8 @@ export default class ArtisanController {
     createArtisan = asyncHandler(async (req, res) => {
         const err = validatorErr(req, res);
         if (err !== null) return;
-        let socialLinks = _.pick(
-            req.body,
-            'facebook',
-            'whatsapp',
-            'instagram',
-            'twitter'
-        );
+        const linkFields = ['facebook', 'whatsapp', 'instagram', 'twitter'];
+        let socialLinks = _.pick(req.body, ...linkFields);
         socialLinks = normalizeUrl(socialLinks);
         req.body = _.pick(req.body, 'experience', 'skill', 'location');
         req.body.social = socialLinks;
@@ -57,13 +52,8 @@ export default class ArtisanController {
         if (req.body.skill) {
             res.artisan.skill = req.body.skill;
         }
-        let socialLinks = _.pick(
-            req.body,
-            'facebook',
-            'whatsapp',
-            'instagram',
-            'twitter'
-        );
+        const linkFields = ['facebook', 'whatsapp', 'instagram', 'twitter'];
+        let socialLinks = _.pick(req.body, ...linkFields);
         socialLinks = normalizeUrl(socialLinks);
         res.artisan.social = socialLinks;
         const updatedArtisan = await res.artisan.save();
