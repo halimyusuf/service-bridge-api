@@ -5,11 +5,11 @@ import asyncHandler from '../utils/asyncWrapper';
 import normalize from 'normalize-url';
 
 function normalizeUrl(urlObj) {
-    for (const [key, value] of Object.entries(url)) {
+    for (const [key, value] of Object.entries(urlObj)) {
         if (value && value.length > 0)
-            url[key] = normalize(value, { forceHttps: true });
+            urlObj[key] = normalize(value, { forceHttps: true });
     }
-    return url;
+    return urlObj;
 }
 
 export default class ArtisanController {
