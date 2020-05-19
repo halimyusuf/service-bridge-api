@@ -2,6 +2,16 @@ import Artisan from '../models/artisan';
 import _ from 'lodash';
 import validatorErr from '../utils/validatorErr';
 import asyncHandler from '../utils/asyncWrapper';
+import normalize from 'normalize-url';
+
+function normalizeUrl(urlObj) {
+    for (const [key, value] of Object.entries(url)) {
+        if (value && value.length > 0)
+            url[key] = normalize(value, { forceHttps: true });
+    }
+    return url;
+}
+
 export default class ArtisanController {
     getArtisans = asyncHandler(async (req, res) => {
         const artisans = await Artisan.find()
@@ -19,7 +29,16 @@ export default class ArtisanController {
     createArtisan = asyncHandler(async (req, res) => {
         const err = validatorErr(req, res);
         if (err !== null) return;
-        req.body = _.pick(req.body, 'experience', 'skill');
+        let socialLinks = _.pick(
+            req.body,
+            'facebook',
+            'whatsapp',
+            'instagram',
+            'twitter'
+        );
+        socialLinks = normalizeUrl(socialLinks);
+        req.body = _.pick(req.body, 'experience', 'skill', 'location');
+        req.body.social = socialLinks;
         req.body.user = req.user.id;
         let newArtisan = new Artisan(req.body);
         newArtisan = await newArtisan.save();
@@ -38,6 +57,15 @@ export default class ArtisanController {
         if (req.body.skill) {
             res.artisan.skill = req.body.skill;
         }
+        let socialLinks = _.pick(
+            req.body,
+            'facebook',
+            'whatsapp',
+            'instagram',
+            'twitter'
+        );
+        socialLinks = normalizeUrl(socialLinks);
+        res.artisan.social = socialLinks;
         const updatedArtisan = await res.artisan.save();
         res.json(updatedArtisan);
     });
