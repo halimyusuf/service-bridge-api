@@ -27,19 +27,21 @@ export default class UserController {
     });
 
     addToFavorite = asyncHandler(async (req, res) => {
-        const favorites = res.user._id.favorites;
+        let favorites = res.user._id.favorites;
         res.user._id.favorites = [
             ...new Set(favorites).add(req.params.artisanId),
         ];
-        await res.user.save();
+        favorites = await res.user.save();
+        res.json(favorites);
     });
 
     removeFromFavorite = asyncHandler(async (req, res) => {
-        const favorites = res.user._id.favorites;
+        let favorites = res.user._id.favorites;
         res.user._id.favorites = [
             ...new Set(favorites).delete(req.params.artisanId),
         ];
-        await res.user.save();
+        favourites = await res.user.save();
+        res.json(favorites);
     });
 
     async getUsers(req, res) {
