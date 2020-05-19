@@ -35,10 +35,9 @@ export default class UserController {
 
     removeFromFavorite = asyncHandler(async (req, res) => {
         let favorites = res.user.favorites;
-        res.user.favorites = [
-            ...new Set(favorites).delete(req.params.artisanId),
-        ];
-        favourites = await res.user.save();
+        favorites = favorites.filter((item) => item != req.params.artisanId);
+        res.user.favorites = [...favorites];
+        favorites = await res.user.save();
         res.json(favorites);
     });
 
