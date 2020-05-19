@@ -35,6 +35,7 @@
         "mongodb": "^3.5.3",
         "mongoose": "^5.8.11",
         "morgan": "^1.10.0",
+        "normalize-url": "^5.0.0",
         "supertest": "^4.0.2"
     },
     "devDependencies": {

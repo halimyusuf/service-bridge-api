@@ -24,12 +24,12 @@ const artisanSchema = new Schema(
             type: Number,
             default: 0,
         },
-        social: [
-            { facebook: String },
-            { whatsApp: String },
-            { twitter: String },
-            { instagram: String },
-        ],
+        social: {
+            facebook: String,
+            whatsapp: String,
+            twitter: String,
+            instagram: String,
+        },
     },
     { timestamps: true }
 );
