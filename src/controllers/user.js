@@ -42,9 +42,6 @@ export default class UserController {
     });
 
     async getUsers(req, res) {
-        if (req.user.isAdmin) {
-            return res.status(400).json({ error: 'Unauthorized request' });
-        }
         const users = await User.find({});
         res.status(200).json(users);
     }

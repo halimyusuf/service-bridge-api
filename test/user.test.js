@@ -122,7 +122,7 @@ describe('Tests for users endpoints', () => {
         const exec = async () =>
             await request.get(`/api/v1/auth/${id}`).set('auth-x-token', token);
         beforeAll(async () => {
-            payload = await getAuthDetails(false);
+            payload = await getAuthDetails(true);
         });
         beforeEach(() => {
             id = '';

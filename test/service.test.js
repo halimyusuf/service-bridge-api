@@ -69,7 +69,6 @@ describe('service tests suites ', () => {
         it('should create a new service', async () => {
             artisanId = artisan._id;
             const res = await exec();
-            console.log(res.body);
             expect(res.status).toBe(200);
         });
     });
@@ -84,7 +83,6 @@ describe('service tests suites ', () => {
         it('should patch service', async () => {
             serviceId = service._id;
             const res = await exec();
-            console.log(res.body);
             expect(res.status).toBe(200);
         });
     });
@@ -98,7 +96,6 @@ describe('service tests suites ', () => {
         it('should delete service', async () => {
             serviceId = service._id;
             const res = await exec();
-            // console.log(res.body);
             expect(res.status).toBe(200);
         });
     });
